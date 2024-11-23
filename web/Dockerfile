@@ -6,7 +6,7 @@ WORKDIR /app
 
 # パッケージのインストール
 COPY package*.json ./
-RUN npm install
+RUN npm install --production
 
 # アプリのビルド
 COPY . .
