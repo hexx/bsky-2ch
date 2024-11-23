@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "npm run dev --workspace=web",
     "build": "npm run build --workspaces",
-    "deploy:infra": "npm run deploy --workspace=cdk",
+    "deploy:cdk": "npm run deploy --workspace=cdk",
     "cdk": "npm run cdk --workspace=cdk"
   },
   "devDependencies": {
