@@ -1,0 +1,19 @@
+{
+  "name": "next-cdk-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "web",
+    "cdk"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=web",
+    "build": "npm run build --workspaces",
+    "deploy:infra": "npm run deploy --workspace=cdk",
+    "cdk": "npm run cdk --workspace=cdk"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}
