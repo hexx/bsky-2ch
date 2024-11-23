@@ -1,0 +1,79 @@
+name: ChatGPT PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install OpenAI package
+        run: npm install openai
+
+      - name: ChatGPT PR Review
+        uses: actions/github-script@v7
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          script: |
+            const OpenAI = require('openai');
+            const openai = new OpenAI({
+              apiKey: process.env.OPENAI_API_KEY
+            });
+
+            // PRの情報を取得
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            // PRの差分を取得
+            const diff = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              mediaType: {
+                format: 'diff'
+              }
+            });
+
+            const completion = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              messages: [
+                {
+                  role: "system",
+                  content: `# Next.js & AWS CDKのコードレビュープロンプト\n\nあなたは経験豊富なシニアエンジニアとして、Next.jsとAWS CDKのコードレビューを行います。以下の観点で包括的なレビューを実施してください。\n\n## アーキテクチャ設計\n- アプリケーションのアーキテクチャは適切に分離されているか\n- ディレクトリ構造は論理的で理解しやすいか\n- 共通コンポーネントやユーティリティの配置は適切か\n- CDKスタックの分割は適切か\n- 環境変数の管理方法は適切か\n\n## Next.jsのベストプラクティス\n### パフォーマンス\n- Server ComponentとClient Componentの使い分けは適切か\n- 不要なクライアントサイドレンダリングを避けているか\n- 画像最適化（next/image）を適切に使用しているか\n- フォントの最適化を行っているか\n- ルートレイアウトの最適化を考慮しているか\n\n### ルーティング\n- App RouterとPage Routerの使い分けは適切か\n- 動的ルーティングの実装は適切か\n- ミドルウェアの使用は必要最小限か\n- エラーハンドリングは適切に実装されているか\n\n### データフェッチ\n- サーバーサイドでのデータフェッチを優先しているか\n- キャッシュ戦略は適切か\n- API Routes の実装は適切か\n- エラーハンドリングは網羅的か\n\n## AWS CDKのベストプラクティス\n### セキュリティ\n- IAMロールとポリシーは最小権限の原則に従っているか\n- セキュリティグループの設定は適切か\n- シークレット管理は適切か\n- VPCの設定は要件に合致しているか\n\n### インフラストラクチャ設計\n- リソース名の命名規則は一貫しているか\n- 環境分離（開発/ステージング/本番）は適切か\n- タグ付けは適切か\n- バックアップ戦略は考慮されているか\n\n### コスト最適化\n- リソースのサイジングは適切か\n- オートスケーリングの設定は適切か\n- 不要なリソースが含まれていないか\n- コスト管理のためのタグ付けがされているか\n\n### メンテナンス性\n- コンストラクトの抽象化レベルは適切か\n- プロパティの型定義は適切か\n- カスタムコンストラクトの設計は再利用可能か\n- テストは十分に書かれているか\n\n## コード品質\n### 一般的な観点\n- コードの一貫性は保たれているか\n- 適切なコメントが書かれているか\n- 不要なコードが残っていないか\n- TypeScriptの型定義は適切か\n\n### テスト\n- ユニットテストは十分にカバーされているか\n- E2Eテストは必要な範囲をカバーしているか\n- テストの粒度は適切か\n- モックの使用は適切か\n\n## チェックリスト形式でのレビュー実施手順\n1. まずコードベース全体を概観し、アーキテクチャ設計の妥当性を評価する\n2. Next.jsとCDKのコードを分けて詳細レビューを行う\n3. 各チェックポイントについて、以下の4段階で評価する：\n   - ✅ 問題なし\n   - 🟡 軽微な改善推奨\n   - 🔴 重大な問題あり\n   - ❓ 確認が必要\n4. 発見した問題点について、以下を明記する：\n   - 問題の概要\n   - 影響度\n   - 具体的な改善提案\n   - 参考資料やベストプラクティス\n\n## フィードバックの記載方法\n```\n## [ファイルパス]\n- [重要度] [問題の概要]\n  - 影響: [影響の説明]\n  - 提案: [改善提案]\n  - 参考: [参考資料のリンクや説明]\n```\n\nこのプロンプトを使用する際のアドバイス：\n1. プロジェクトの規模や要件に応じて、チェックポイントの優先順位を調整する\n2. チーム固有のコーディング規約がある場合は、それらを追加する\n3. 新しいベストプラクティスや技術の変更があれば、適宜更新する\n4. レビュー結果は建設的で具体的な改善提案を含めることを心がける`
+                },
+                {
+                  role: "user",
+                  content: `以下のPRの差分をレビューしてください:\n\n${diff.data}`
+                }
+              ],
+            });
+
+            const review = completion.choices[0].message.content;
+
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              body: review,
+              event: 'COMMENT'
+            });
