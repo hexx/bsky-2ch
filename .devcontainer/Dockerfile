@@ -1,5 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/typescript-node
 
+RUN npm install -g pnpm
+
 # AWS CLIのインストール（ARM用）
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \

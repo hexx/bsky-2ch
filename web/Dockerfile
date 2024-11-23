@@ -1,17 +1,22 @@
 # ベースイメージ
-FROM node:lts-alpine
+FROM node:lts-slim
+
+# pnpmのインストール
+RUN npm install -g pnpm
 
 # 作業ディレクトリの設定
 WORKDIR /app
 
 # パッケージのインストール
-COPY package*.json ./
-RUN npm install --production
+COPY package.json pnpm-lock.yaml ./
+
+# キャッシュを利用して依存関係をインストール
+RUN pnpm install --frozen-lockfile
 
 # アプリのビルド
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 # 実行
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
