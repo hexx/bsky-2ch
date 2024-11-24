@@ -9,11 +9,8 @@
     {
       "matchUpdateTypes": ["minor", "patch"],
       "matchCurrentVersion": "!/^0/",
-      "automerge": true,
-      "matchPaths": ["packages/*/package.json"]
+      "automerge": true
     }
   ],
-  "dependencyDashboard": true,
-  "branchPrefix": "deps/",
-  "labels": ["dependencies"]
+  "dependencyDashboard": true
 }
