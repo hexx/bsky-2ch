@@ -12,5 +12,8 @@
       "automerge": true
     }
   ],
-  "dependencyDashboard": true
+  "dependencyDashboard": true,
+  "repositories": [
+    "hexx/bsky-2ch"
+  ]
 }
