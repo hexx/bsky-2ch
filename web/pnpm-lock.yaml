@@ -16,7 +16,7 @@ importers:
         version: 15.0.4(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
       openai:
         specifier: ^4.73.0
-        version: 4.77.0(zod@3.23.8)
+        version: 4.77.3(zod@3.23.8)
       react:
         specifier: 19.0.0-rc-66855b96-20241106
         version: 19.0.0-rc-66855b96-20241106
@@ -443,8 +443,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  agentkeepalive@4.5.0:
-    resolution: {integrity: sha512-5GG/5IbQQpC9FpkRGsSvZI5QYeSCzlJHdpBQntCsuTOxhKD8lqKhrleg2Yi7yvMIf82Ycmmqln9U8V9qwEiJew==}
+  agentkeepalive@4.6.0:
+    resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
     engines: {node: '>= 8.0.0'}
 
   ajv@6.12.6:
@@ -1326,8 +1326,8 @@ packages:
     resolution: {integrity: sha512-yBYjY9QX2hnRmZHAjG/f13MzmBzxzYgQhFrke06TTyKY5zSTEqkOeukBzIdVA3j3ulu8Qa3MbVFShV7T2RmGtQ==}
     engines: {node: '>= 0.4'}
 
-  openai@4.77.0:
-    resolution: {integrity: sha512-WWacavtns/7pCUkOWvQIjyOfcdr9X+9n9Vvb0zFeKVDAqwCMDHB+iSr24SVaBAhplvSG6JrRXFpcNM9gWhOGIw==}
+  openai@4.77.3:
+    resolution: {integrity: sha512-wLDy4+KWHz31HRFMW2+9KQuVuT2QWhs0z94w1Gm1h2Ut9vIHr9/rHZggbykZEfyiaJRVgw8ZS9K6AylDWzvPYw==}
     hasBin: true
     peerDependencies:
       zod: ^3.23.8
@@ -2142,7 +2142,7 @@ snapshots:
 
   acorn@8.14.0: {}
 
-  agentkeepalive@4.5.0:
+  agentkeepalive@4.6.0:
     dependencies:
       humanize-ms: 1.2.1
 
@@ -3174,12 +3174,12 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  openai@4.77.0(zod@3.23.8):
+  openai@4.77.3(zod@3.23.8):
     dependencies:
       '@types/node': 18.19.69
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
-      agentkeepalive: 4.5.0
+      agentkeepalive: 4.6.0
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
